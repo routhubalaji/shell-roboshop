@@ -9,9 +9,9 @@ do
     INSTANCE_ID=$(aws ec2 run-instances --image-id $AMI_ID --instance-type t3.micro --security-group-ids $SG_ID --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query 'Instances[0].InstanceId' --output text)
 
     if [ $instance != "frontend" ]; then
-        IP=$(aws ec2 describe-instances --instance-ids i-0482762808b42ce32 --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
     else
-        IP=$(aws ec2 describe-instances --instance-ids i-0a1b2c3d4e5f6g7h8 --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text)
+        IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text)
     fi   
      
     echo "Instance $instance is created with ID $INSTANCE_ID and IP $IP"
